@@ -15,6 +15,7 @@
   --ink:#12233A; --muted:#566779; --accent:#0B6E78; --accent-ink:#FFFFFF;
   --low:#B8D2E9; --normal:#E3E8ED; --high:#F1BC57; --peak:#D45F27; --peak-ink:#FFFFFF;
   --ok:#2F7D4F; --warn:#9A6200; --bad:#B03A2E;
+  --good:#2E8B57; --good-soft:#BFE2CC; --good-ink:#FFFFFF;
   --display:'Archivo','Arial Narrow',Arial,sans-serif;
   --body:'IBM Plex Sans','Segoe UI',Arial,sans-serif;
   --mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
@@ -23,12 +24,14 @@
   --bg:#0E1621; --surface:#152030; --surface-2:#1C2A3D; --line:#2A3B52;
   --ink:#E4EBF2; --muted:#93A4B8; --accent:#4FB3BC; --accent-ink:#06151A;
   --low:#2C577D; --normal:#223247; --high:#B98A2C; --peak:#E2703A;
-  --peak-ink:#1A0B03; --ok:#6FC08F; --warn:#E3B04F; --bad:#EE8274; color-scheme:dark}}
+  --peak-ink:#1A0B03; --ok:#6FC08F; --warn:#E3B04F; --bad:#EE8274;
+  --good:#3FA96D; --good-soft:#1D4532; --good-ink:#06150C; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#0E1621; --surface:#152030; --surface-2:#1C2A3D; --line:#2A3B52;
   --ink:#E4EBF2; --muted:#93A4B8; --accent:#4FB3BC; --accent-ink:#06151A;
   --low:#2C577D; --normal:#223247; --high:#B98A2C; --peak:#E2703A;
-  --peak-ink:#1A0B03; --ok:#6FC08F; --warn:#E3B04F; --bad:#EE8274; color-scheme:dark}
+  --peak-ink:#1A0B03; --ok:#6FC08F; --warn:#E3B04F; --bad:#EE8274;
+  --good:#3FA96D; --good-soft:#1D4532; --good-ink:#06150C; color-scheme:dark}
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:14px;line-height:1.45;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 40px}
@@ -60,7 +63,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .chip[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
 
 /* summary */
-.summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.summary{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
 .tile{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:4px;min-width:0}
 .tile .big{font-family:var(--display);font-size:30px;font-weight:700;font-stretch:90%;line-height:1.05}
 .tile .sub{font-size:12px;color:var(--muted)}
@@ -79,6 +82,39 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .c{height:20px;border-radius:2px;background:var(--normal);cursor:pointer;position:relative}
 .c.low{background:var(--low)} .c.high{background:var(--high)} .c.peak{background:var(--peak)}
 .c.add::after{content:"";position:absolute;inset:6px 4px;border-radius:1px;background:var(--surface);opacity:.85}
+.gapbox{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:14px}
+.gapbox>div{border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:2px}
+.gapbox .g{font-family:var(--display);font-stretch:90%;font-size:28px;font-weight:700;line-height:1.05;font-variant-numeric:tabular-nums}
+.gapbox .g.neg{color:var(--bad)} .gapbox .g.pos{color:var(--ok)}
+.gapbox .s{font-size:12px;color:var(--muted)}
+.chartwrap{margin-top:14px;border-top:1px solid var(--line);padding-top:12px}
+.chartlegend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;color:var(--muted);margin-top:4px}
+.chartlegend i{display:inline-block;width:16px;height:0;vertical-align:middle;margin-right:5px}
+.econ{margin-top:14px;border-top:1px solid var(--line);padding-top:12px}
+.econ .inputs{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0}
+.econ .inputs label{font-size:12px;color:var(--muted);display:flex;flex-direction:column;gap:3px;flex:1 1 150px}
+.econ .inputs input{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;padding:7px 9px;font:inherit;width:100%}
+.v-worth{color:var(--ok);font-weight:700} .v-not{color:var(--bad);font-weight:700}
+details.how{margin-top:4px}
+details.how summary{cursor:pointer;color:var(--accent);font-weight:700;font-size:13px;padding:4px 0}
+details.how[open] summary{margin-bottom:6px}
+details.how p{margin:4px 0}
+.scard{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--surface);display:flex;flex-direction:column;gap:10px}
+.stop{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.scard .big{font-family:var(--display);font-stretch:90%;font-size:40px;font-weight:800;line-height:1}
+.scard .verdict{font-size:16px;font-weight:700;margin-top:2px}
+.sbar .sh{display:flex;justify-content:space-between;font-size:13px}
+.sbar .track{height:8px;background:var(--surface-2);border-radius:4px;overflow:hidden;margin:4px 0 3px}
+.sbar .track i{display:block;height:100%;background:var(--accent);border-radius:4px}
+.s-strong{color:var(--ok)} .s-good{color:var(--accent)} .s-mixed{color:var(--warn)} .s-weak{color:var(--bad)}
+.c.cov{background:var(--good)}
+.c.tight{background:var(--good);box-shadow:inset 0 0 0 2px var(--high)}
+.c.spare{background:repeating-linear-gradient(135deg,var(--good) 0 2px,var(--good-soft) 2px 5px)}
+.c.pend::after{content:"";position:absolute;left:3px;top:6px;width:7px;height:7px;border-radius:50%;border:1.5px solid var(--surface)}
+.sw.cov{background:var(--good)} .sw.tight{background:var(--good);box-shadow:inset 0 0 0 2px var(--high)}
+.sw.spare{background:repeating-linear-gradient(135deg,var(--good) 0 2px,var(--good-soft) 2px 4px)}
+.sw.pend{background:var(--peak);position:relative}
+.sw.pend::after{content:"";position:absolute;left:2px;top:2px;width:6px;height:6px;border-radius:50%;border:1.5px solid var(--surface)}
 .c.sel{outline:2px solid var(--ink);outline-offset:1px;z-index:2}
 .c.wkend{box-shadow:inset 0 -2px 0 rgba(0,0,0,.08)}
 .month{font-size:11px;font-weight:600;color:var(--muted);border-left:1px solid var(--line);padding-left:4px;height:16px;white-space:nowrap}
@@ -96,6 +132,23 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:700}
 .pill.peak{background:var(--peak);color:var(--peak-ink)} .pill.high{background:var(--high);color:#2B1D00}
 .pill.low{background:var(--low);color:var(--ink)} .pill.normal{background:var(--normal);color:var(--ink)}
+.pill.cov,.pill.tight{background:var(--good);color:var(--good-ink)}
+.pill.spare{background:var(--good-soft);color:var(--ink);border:1px solid var(--good)}
+.pill.pend{background:var(--surface-2);color:var(--ink);border:1px solid var(--peak)}
+.plan{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}
+.plan th{text-align:left;font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);padding:6px 6px;border-bottom:1px solid var(--line);font-weight:600}
+.plan td{padding:7px 6px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums;vertical-align:top}
+.plan td.n{font-family:var(--mono);text-align:right;white-space:nowrap}
+.plan tr.mine td{background:var(--surface)}
+.res{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:12px}
+.res span{white-space:nowrap}
+.decide .row label{font-size:12px;color:var(--muted);display:flex;flex-direction:column;gap:3px;flex:0 0 130px}
+.decide input[type=number]{flex:none;width:100%}
+.banner{border-radius:10px;padding:10px 12px;font-size:13px;border:1px solid var(--line);background:var(--surface)}
+.banner.ok{border-color:var(--good)} .banner.no{border-color:var(--bad)} .banner.wait{border-color:var(--peak)}
+.chip-s{display:inline-block;font-size:11px;font-weight:700;padding:1px 7px;border-radius:999px;margin-left:6px;vertical-align:1px}
+.chip-s.wait{border:1px solid var(--peak);color:var(--ink)} .chip-s.ok{background:var(--good);color:var(--good-ink)}
+.chip-s.part{background:var(--high);color:#2B1D00} .chip-s.no{border:1px solid var(--bad);color:var(--bad)}
 .det-head{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start}
 .det-head h3{font-size:22px;font-weight:700}
 .det-head .when{color:var(--muted);font-size:13px}
@@ -139,6 +192,26 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .foot{font-size:12px;color:var(--muted);max-width:110ch}
 .foot p{margin:4px 0}
 @media (prefers-reduced-motion:no-preference){.c{transition:background-color .25s}}
+/* co-pilot pop-up */
+.askfab{position:fixed;z-index:20;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));
+  border:0;border-radius:999px;padding:12px 18px;background:var(--accent);color:var(--accent-ink);font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,.25);display:flex;gap:8px;align-items:center}
+.askpanel{position:fixed;z-index:21;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));
+  width:min(440px,calc(100vw - 32px));height:min(600px,calc(100vh - 120px));background:var(--surface);color:var(--ink);border:1px solid var(--line);
+  border-radius:16px;box-shadow:0 16px 40px rgba(0,0,0,.3);display:flex;flex-direction:column;overflow:hidden}
+.askpanel[hidden],.askfab[hidden],.btn[hidden]{display:none}
+.askhead{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line)}
+.askhead h2{font-size:18px}
+.askhead .x{border:0;background:transparent;font-size:22px;line-height:1;padding:2px 6px;color:var(--muted)}
+.asklog{flex:1;overflow:auto;padding:12px 16px;display:flex;flex-direction:column;gap:10px}
+.msg{border-radius:12px;padding:9px 12px;font-size:13.5px;white-space:pre-wrap;overflow-wrap:anywhere;max-width:92%}
+.msg.user{align-self:flex-end;background:var(--accent);color:var(--accent-ink)}
+.msg.ai{align-self:flex-start;background:var(--surface-2)}
+.msg.sys{align-self:stretch;background:transparent;border:1px dashed var(--line);color:var(--muted);font-size:12.5px}
+.askchips{display:flex;flex-wrap:wrap;gap:6px;padding:0 16px 8px}
+.askchips button{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 10px;font-size:12px}
+.askform{display:flex;gap:8px;padding:10px 16px 14px;border-top:1px solid var(--line);align-items:flex-end}
+.askform textarea{flex:1;min-width:0;resize:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:8px 10px;font:inherit;max-height:120px}
+.askctx{font-size:11.5px;color:var(--muted);padding:0 16px 6px}
 </style>
 </head>
 <body>
@@ -169,10 +242,11 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
   </section>
 
   <section class="summary" aria-label="Summary">
-    <div class="tile"><span class="label">Peak days ahead</span><span class="big mono" id="kPeak">–</span><span class="sub" id="kPeakSub"></span></div>
-    <div class="tile"><span class="label">Next peak</span><span class="big" id="kNext">–</span><span class="sub" id="kNextSub"></span></div>
-    <div class="tile"><span class="label">Unserved if we do nothing</span><span class="big mono" id="kUnserved">–</span><span class="sub">seats or room-nights above capacity</span></div>
+    <div class="tile"><span class="label">Open peak days</span><span class="big mono" id="kPeak">–</span><span class="sub" id="kPeakSub"></span></div>
+    <div class="tile"><span class="label">Next open peak</span><span class="big" id="kNext">–</span><span class="sub" id="kNextSub"></span></div>
+    <div class="tile"><span class="label">Unserved demand</span><span class="big mono" id="kUnserved">–</span><span class="sub">seats or room-nights still above capacity</span></div>
     <div class="tile"><span class="label">Decisions</span><span class="big mono" id="kDec">0</span><span class="sub" id="kDecSub">none yet</span></div>
+    <div class="tile"><span class="label">Over-supply from decisions</span><span class="big mono" id="kOver">0</span><span class="sub">seats added beyond the recommendation</span></div>
   </section>
 
   <section class="panel" aria-labelledby="radarTitle">
@@ -183,7 +257,11 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
         <span><i class="sw" style="background:var(--normal)"></i>Normal</span>
         <span><i class="sw" style="background:var(--high)"></i>High 85%+</span>
         <span><i class="sw" style="background:var(--peak)"></i>Peak: over capacity</span>
-        <span><i class="sw" style="background:var(--peak);position:relative;box-shadow:inset 0 0 0 3px var(--peak),inset 0 0 0 6px var(--surface)"></i>Capacity added</span>
+        <span><i class="sw pend"></i>Awaiting approval</span>
+        <span><i class="sw cov"></i>Covered: optimal 85–95%</span>
+        <span><i class="sw tight"></i>Covered: tight 95%+</span>
+        <span><i class="sw spare"></i>Covered: spare seats</span>
+        <span><i class="sw" style="background:var(--peak);box-shadow:inset 0 0 0 4px var(--peak),inset 0 0 0 7px var(--surface)"></i>Capacity added, still short</span>
       </div>
     </div>
     <div class="scroll">
@@ -208,7 +286,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
         <button class="btn" id="resetBtn">Clear log</button>
       </div>
     </div>
-    <div class="scroll"><table><thead><tr><th>When</th><th>Who</th><th>Route / city</th><th>Dates</th><th>Recommendation</th><th>Decision</th><th>Note</th></tr></thead><tbody id="logBody"></tbody></table></div>
+    <div class="scroll"><table><thead><tr><th>When</th><th>Who</th><th>Route / city</th><th>Peak dates</th><th>Recommendation</th><th>Decision</th><th>Extra flights / day</th><th>Result</th><th>Score</th><th>Note</th></tr></thead><tbody id="logBody"></tbody></table></div>
     <div class="empty" id="logEmpty">No decisions yet. Pick a hotspot, review the reasons, then approve, adjust or reject.</div>
   </section>
 
@@ -218,11 +296,32 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
   </footer>
 </main>
 
+<button class="askfab" id="askBtn" aria-haspopup="dialog" aria-controls="askPanel" aria-expanded="false">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>Ask the co-pilot</button>
+<section class="askpanel" id="askPanel" role="dialog" aria-modal="false" aria-labelledby="askTitle" hidden>
+  <div class="askhead"><div><h2 id="askTitle">Ask the co-pilot</h2><div class="hint">Knows this page's model, the project briefing and what you have selected.</div></div>
+    <button class="x" id="askClose" aria-label="Close the co-pilot">×</button></div>
+  <div class="asklog" id="askLog" aria-live="polite"></div>
+  <div class="askctx" id="askCtx"></div>
+  <div class="askchips" id="askChips">
+    <button type="button" data-q="Why does this hotspot need this many flights? Walk me through it simply.">Why this many flights?</button>
+    <button type="button" data-q="Is the current decision good or bad for revenue and for Vision 2030? Be direct.">Is this decision good?</button>
+    <button type="button" data-q="Explain this selected day to our CCO in three short sentences.">Explain for the CCO</button>
+    <button type="button" data-q="What are the main risks or weak assumptions in this recommendation?">Risks and assumptions</button>
+  </div>
+  <form class="askform" id="askForm">
+    <textarea id="askInput" rows="2" placeholder="Ask about the selected day, a decision or the model…" aria-label="Your question"></textarea>
+    <button class="btn approve" type="submit" id="askSend">Send</button>
+    <button class="btn" type="button" id="askStop" hidden>Stop</button>
+  </form>
+</section>
+
 <script>
 (function(){
 "use strict";
 // ---------- model inputs (identical to the workbook) ----------
-const A = {today:[2026,12,31], cap:2.5, low:0.60, high:0.85, peak:1.00, capLead:30, agencyLead:45, fareLead:14, fairness:0.25, flightSeats:186};
+const A = {today:[2026,12,31], cap:2.5, low:0.60, high:0.85, peak:1.00, capLead:30, agencyLead:45, fareLead:14, fairness:0.25,
+           flightSeats:186, optLow:0.85, optHigh:0.95};
 const PROFILES = { // Sun..Sat
   Airline:[1.10,0.90,0.85,1.00,1.15,0.95,1.00],
   Hotel_Holy:[0.95,0.95,0.95,0.95,1.10,1.15,1.00],
@@ -255,13 +354,16 @@ const SERIES = [
   {n:"Madinah hotels",brand:"Najd Hotels",sector:"Hotel",story:"Religious",prof:"Hotel_Holy",base:575,cap:800,unit:"rooms",agency:true, u:[1.00,1.20,1.00,1.00,1.15,1.00,1.30,1.00,1.60,1.00,1.00,0.80]},
   {n:"Riyadh hotels",brand:"Najd Hotels",sector:"Hotel",story:"Riyadh Season",prof:"Hotel_Riyadh",base:430,cap:600,unit:"rooms",agency:false,u:[1.15,0.95,1.00,1.00,1.00,1.35,0.85,1.25,0.75,1.00,1.25,0.90]}
 ];
+// flight economics (illustrative, editable on the page): one-way peak fare and cost of one extra round trip, SAR
+const ROUTE={0:"RUH–JED",1:"RUH–JED",2:"DMM–JED",3:"DMM–JED",4:"RUH–MED",5:"RUH–MED",6:"DMM–RUH",7:"DMM–RUH"};
+const PAIR={0:1,1:0,2:3,3:2,4:5,5:4,6:7,7:6};
+const ECON0={"RUH–JED":{fare:450,trip:55000},"DMM–JED":{fare:500,trip:70000},"RUH–MED":{fare:420,trip:50000},"DMM–RUH":{fare:350,trip:30000}};
 const ND = 90;
 const TODAY = Date.UTC(A.today[0],A.today[1]-1,A.today[2]);
 const DAY = 86400000;
 const DATES = Array.from({length:ND},(_,i)=>TODAY+(i+1)*DAY);
 
 function ymd(s){const [y,m,d]=s.split("-").map(Number);return Date.UTC(y,m-1,d);}
-const WD = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 const fmtG = new Intl.DateTimeFormat("en-GB",{weekday:"short",day:"numeric",month:"short",timeZone:"UTC"});
 const fmtGS = new Intl.DateTimeFormat("en-GB",{day:"numeric",month:"short",timeZone:"UTC"});
 const fmtGL = new Intl.DateTimeFormat("en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric",timeZone:"UTC"});
@@ -269,6 +371,8 @@ let fmtH=null; try{fmtH=new Intl.DateTimeFormat("en-u-ca-islamic-umalqura",{day:
 const hijri = t => { try{return fmtH?fmtH.format(new Date(t)).replace(/\s?AH$/,"")+" AH":"";}catch(e){return "";} };
 const nf = new Intl.NumberFormat("en-US");
 const pct = x => Math.round(x*100)+"%";
+const esc = x => String(x==null?"":x).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+const range = (a,b) => fmtGS.format(new Date(DATES[a]))+(b>a?" – "+fmtGS.format(new Date(DATES[b])):"");
 
 // ---------- the model ----------
 function cell(s,d,extra){
@@ -282,14 +386,13 @@ function cell(s,d,extra){
   const load=demand/cap;
   const status= load>=A.peak?"Peak":load>=A.high?"High":load<A.low?"Low":"Normal";
   const ahead=d+1;
-  // main driver: the active event with the largest effect for this series
   let top=1, driver=null; active.forEach(j=>{ if(S.u[j]>top){top=S.u[j]; driver=j;} });
   return {s,d,t,wd,wf,active,prod,upl,demand,cap,load,status,ahead,driver,top};
 }
 function action(c){
   const S=SERIES[c.s];
   if(S.sector==="Airline"){
-    if(c.status==="Peak") return c.ahead>=A.capLead?{k:"addcap",t:"Add capacity: extra frequency or larger aircraft"}:{k:"protect",t:"Protect seats: close lowest fare classes, open waitlist"};
+    if(c.status==="Peak") return c.ahead>=A.capLead?{k:"addcap",t:"Add capacity: extra flights"}:{k:"protect",t:"Protect seats: close lowest fare classes, open waitlist"};
     if(c.status==="High") return c.ahead>=A.fareLead?{k:"fare",t:"Reduce lowest-fare allocation gradually"}:{k:"monitor",t:"Monitor daily; hold current fares"};
     if(c.status==="Low") return {k:"promo",t:"Stimulate demand: promotional fares"};
     return {k:"none",t:"No action"};
@@ -305,15 +408,166 @@ function agencyAction(c){
   if(c.status==="High") return "Watch: prepare a block request";
   return null;
 }
+// extra flights needed so the day lands at or below the top of the optimal band (95%)
+function need(c0){ return Math.max(0,Math.ceil((c0.demand/A.optHigh - c0.cap)/A.flightSeats)); }
+// judge a day once capacity has been added
+function judge(load){ return load>=A.peak?"short":load>=A.optHigh?"tight":load>=A.optLow?"opt":"spare"; }
+const JUDGE_TXT={short:"Still short",tight:"Covered: tight",opt:"Covered: optimal",spare:"Covered: spare seats"};
+const JUDGE_CLS={short:"peak",tight:"tight",opt:"cov",spare:"spare"};
 
 // ---------- state ----------
-const KEY="tdr-proto-v1";
-let state={view:"all",story:"all",sel:{s:0,d:59},extra:{},log:[],who:""};
-try{const saved=JSON.parse(localStorage.getItem(KEY)||"null"); if(saved){state.extra=saved.extra||{};state.log=saved.log||[];state.who=saved.who||"";}}catch(e){}
-function save(){try{localStorage.setItem(KEY,JSON.stringify({extra:state.extra,log:state.log,who:state.who}));}catch(e){}}
-const ex=(s,d)=>state.extra[s+":"+d]||0;
-let GRID=[];
-function compute(){GRID=SERIES.map((_,s)=>DATES.map((_,d)=>cell(s,d,ex(s,d))));}
+const KEY="tdr-proto-v2";
+let state={view:"all",story:"all",sel:{s:0,d:59},log:[],who:"",econ:{}};
+try{const saved=JSON.parse(localStorage.getItem(KEY)||"null"); if(saved){state.log=saved.log||[];state.who=saved.who||"";state.econ=saved.econ||{};}}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify({log:state.log,who:state.who,econ:state.econ}));}catch(e){}}
+const econOf=s=>Object.assign({},ECON0[ROUTE[s]],state.econ[ROUTE[s]]||{});
+
+let GRID0=[], GRID=[], RUNS=[], RUNOF={}, EXTRA={};
+const ex=(s,d)=>EXTRA[s+":"+d]||0;
+
+// hotspot runs from the BASE plan (before any decision): peak days per series, gaps up to 2 days bridged
+function findRuns(s){
+  const out=[]; let cur=null, gap=0;
+  for(let d=0;d<ND;d++){
+    const c=GRID0[s][d];
+    if(c.status==="Peak"){
+      if(cur && gap<=2){cur.end=d;cur.days.push(d);} else {cur={s,start:d,end:d,days:[d]};out.push(cur);}
+      gap=0;
+    } else if(cur){gap++; if(gap>2) cur=null;}
+  }
+  out.forEach(r=>{
+    r.key=s+":"+r.start;
+    let un=0,mx=0; const drv={};
+    r.days.forEach(d=>{const c=GRID0[s][d]; un+=c.demand-c.cap; mx=Math.max(mx,c.load); if(c.driver!=null) drv[c.driver]=(drv[c.driver]||0)+1;});
+    r.unserved=un; r.max=mx;
+    const k=Object.keys(drv).sort((a,b)=>drv[b]-drv[a])[0]; r.driver=k!=null?EVENTS[+k].n:"Weekly pattern";
+    r.first=GRID0[s][r.start];
+    r.act=action(r.first);
+    r.rec={}; let mn=99,mxf=0,tot=0;
+    r.days.forEach(d=>{const n=need(GRID0[s][d]); r.rec[d]=n; mn=Math.min(mn,n); mxf=Math.max(mxf,n); tot+=n;});
+    r.recMin=mn; r.recMax=mxf; r.recTotal=tot;
+  });
+  return out;
+}
+function latest(key){ return state.log.find(l=>l.key===key)||null; }
+// evaluate a plan (flights per peak day) for a run
+function evalPlan(r,flights){
+  const o={opt:0,tight:0,spare:0,short:0,over:0,under:0,emptySpare:0,loadSum:0,added:0,days:r.days.length};
+  r.days.forEach(d=>{
+    const c0=GRID0[r.s][d], n=flights[d]||0, cap=c0.cap+n*A.flightSeats, load=c0.demand/cap;
+    o[judge(load)]++; o.loadSum+=Math.min(load,9);
+    o.added+=n;
+    const rec=r.rec[d]; if(n>rec) o.over+=(n-rec)*A.flightSeats; if(n<rec) o.under+=(rec-n)*A.flightSeats;
+    if(load<A.optLow) o.emptySpare+=cap-c0.demand;
+  });
+  o.avg=o.loadSum/o.days;
+  return o;
+}
+const uniform=(r,n)=>{const f={}; r.days.forEach(d=>f[d]=n); return f;};
+// economics of a plan: passengers who would otherwise not fly (outbound + return leg), revenue, round-trip cost
+function econ(r,flights){
+  const E=econOf(r.s), rs=PAIR[r.s]; const o={flights:0,out:0,ret:0,rev:0,cost:0};
+  r.days.forEach(d=>{
+    const n=flights[d]||0; if(!n) return; const seats=n*A.flightSeats, c0=GRID0[r.s][d], rc=GRID0[rs][d];
+    const out=Math.min(seats,Math.max(0,c0.demand-c0.cap)), ret=Math.min(seats,Math.max(0,rc.demand-rc.cap));
+    o.flights+=n; o.out+=out; o.ret+=ret; o.rev+=(out+ret)*E.fare; o.cost+=n*E.trip;
+  });
+  o.net=o.rev-o.cost; o.verdict=o.flights===0?"none":o.net>=0?"worth":"not";
+  return o;
+}
+// decision scorecard: 50% revenue, 50% Vision 2030
+// Revenue score = net profit of the plan as a share of the best net any plan could reach (uniform 0..max flights/day, or the recommendation)
+// Vision 2030 score = share of the travellers who would otherwise be turned away who now get a seat (tourism access, Quality of Life)
+const W_REV=0.5, W_V30=0.5;
+function bestNet(r){
+  let best=econ(r,r.rec).net;
+  for(let n=0;n<=r.recMax+2;n++) best=Math.max(best,econ(r,uniform(r,n)).net);
+  return best;
+}
+function score(r,flights){
+  const e=econ(r,flights), best=bestNet(r), gap=r.unserved;
+  // return on the cost of the extra flights: break-even = 50, +50% or better = 100, −50% or worse = 0; no flights added = 50 (no gain, no loss)
+  const roi = e.cost>0 ? e.net/e.cost : 0;
+  const rev = e.flights===0 ? 50 : Math.max(0,Math.min(100,50+roi*100));
+  const v30=gap>0?Math.min(100,e.out/gap*100):100;
+  const total=W_REV*rev+W_V30*v30;
+  const verdict= total>=80?"Strong decision":total>=60?"Good decision":total>=40?"Mixed decision":"Weak decision";
+  return {rev:Math.round(rev),v30:Math.round(v30),total:Math.round(total),verdict,e,best,gap,roi};
+}
+const scoreCls=t=>t>=80?"s-strong":t>=60?"s-good":t>=40?"s-mixed":"s-weak";
+function scorecardHtml(r,flights,title){
+  const k=score(r,flights);
+  const bar=(v,lab,txt)=>"<div class='sbar'><div class='sh'><span>"+lab+"</span><b class='mono'>"+v+"/100</b></div><div class='track'><i style='width:"+v+"%'></i></div><div class='hint'>"+txt+"</div></div>";
+  return "<div class='scard'><div class='stop'><div><span class='label'>"+title+" · 50% revenue, 50% Vision 2030</span><div class='verdict "+scoreCls(k.total)+"'>"+k.verdict+"</div></div><div class='big mono "+scoreCls(k.total)+"'>"+k.total+"</div></div>"+
+    bar(k.rev,"Revenue (50%)", k.e.flights===0 ? "No flights added: no extra revenue and no extra cost (neutral 50)." : "Net "+sar(k.e.net)+" on "+sar(k.e.cost)+" of extra flights = "+(k.roi>=0?"+":"")+Math.round(k.roi*100)+"% return. Break-even scores 50; +50% or better scores 100.")+
+    bar(k.v30,"Vision 2030 (50%)", nf.format(k.e.out)+" of "+nf.format(k.gap)+" travellers who would have been turned away now get a seat (National Tourism Strategy access, Quality of Life).")+
+    "</div>";
+}
+const sar=x=>(x<0?"−":"")+"SAR "+nf.format(Math.abs(Math.round(x)));
+// the per-day arithmetic behind the recommended number of flights
+function needHtml(r,selD){
+  const S=SERIES[r.s];
+  let rows="", tg=0;
+  r.days.forEach(d=>{
+    const c0=GRID0[r.s][d], n=r.rec[d], cap=c0.cap+n*A.flightSeats, dt=new Date(DATES[d]); tg+=c0.demand-c0.cap;
+    rows+="<tr"+(d===selD?" class='mine'":"")+"><td>"+["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][dt.getUTCDay()]+" "+fmtGS.format(dt)+"</td><td class='n'>"+nf.format(c0.demand)+"</td><td class='n' style='color:var(--bad)'>"+signed(c0.cap-c0.demand)+"</td><td class='n'>"+nf.format(Math.round(c0.demand/A.optHigh))+"</td><td class='n'><b>"+n+"</b></td><td class='n'>"+pct(c0.demand/cap)+"</td></tr>";
+  });
+  const c0=GRID0[r.s][selD]!=null&&r.rec[selD]!=null?GRID0[r.s][selD]:GRID0[r.s][r.start], ex0=r.rec[c0.d];
+  const need=c0.demand/A.optHigh-c0.cap;
+  return "<details class='how'><summary>How we got "+r.recTotal+" flights over "+r.days.length+" days</summary>"+
+    "<p class='hint'>Each day is worked out separately: <b>extra flights = round up ((expected demand ÷ "+pct(A.optHigh)+") − "+nf.format(c0.cap)+" seats) ÷ "+A.flightSeats+"</b>. That is the smallest number of flights that keeps the plane at or below "+pct(A.optHigh)+" full, the top of the optimal band.</p>"+
+    "<p class='hint'>Example, "+fmtG.format(new Date(c0.t))+": "+nf.format(c0.demand)+" ÷ "+A.optHigh.toFixed(2)+" = "+nf.format(Math.round(c0.demand/A.optHigh))+" seats needed, minus "+nf.format(c0.cap)+" = "+nf.format(Math.round(need))+", ÷ "+A.flightSeats+" = "+(need/A.flightSeats).toFixed(1)+", rounded up to <b>"+ex0+"</b>.</p>"+
+    "<div class='scroll'><table class='plan'><thead><tr><th>Day</th><th style='text-align:right'>Expected "+S.unit+"</th><th style='text-align:right'>Gap now</th><th style='text-align:right'>Seats needed at "+pct(A.optHigh)+"</th><th style='text-align:right'>Extra flights</th><th style='text-align:right'>Load after</th></tr></thead><tbody>"+rows+
+    "<tr class='tot'><td><b>Total</b></td><td></td><td class='n' style='color:var(--bad)'><b>"+signed(-tg)+"</b></td><td></td><td class='n'><b>"+r.recTotal+"</b></td><td class='n'>all ≤ "+pct(A.optHigh)+"</td></tr></tbody></table></div></details>";
+}
+const signed=x=>(x>0?"+":x<0?"−":"")+nf.format(Math.abs(x));
+// mini chart: expected demand vs capacity on each peak day of a hotspot, before and after the decision
+function chartSvg(r,flights,selD){
+  const S=SERIES[r.s], days=r.days, W=640, H=210, padL=8, padR=8, top=26, bot=44, n=days.length;
+  const max=Math.max(...days.map(d=>Math.max(GRID0[r.s][d].demand,GRID0[r.s][d].cap+(flights[d]||0)*A.flightSeats)))*1.08;
+  const y=v=>top+(H-top-bot)*(1-v/max), bw=(W-padL-padR)/n;
+  let g="";
+  days.forEach((d,i)=>{
+    const c0=GRID0[r.s][d], x=padL+i*bw, cx=x+bw/2, after=c0.cap+(flights[d]||0)*A.flightSeats, gap=after-c0.demand;
+    const col= (flights[d]||0) ? (c0.demand>after?"var(--peak)":"var(--good)") : "var(--peak)";
+    g+="<rect x='"+(x+bw*0.18)+"' y='"+y(c0.demand)+"' width='"+(bw*0.64)+"' height='"+(y(0)-y(c0.demand))+"' rx='3' fill='"+col+"' opacity='"+(d===selD?1:0.78)+"'/>";
+    g+="<line x1='"+(x+bw*0.08)+"' x2='"+(x+bw*0.92)+"' y1='"+y(c0.cap)+"' y2='"+y(c0.cap)+"' stroke='var(--ink)' stroke-width='2' stroke-dasharray='4 3'/>";
+    if(flights[d]) g+="<line x1='"+(x+bw*0.08)+"' x2='"+(x+bw*0.92)+"' y1='"+y(after)+"' y2='"+y(after)+"' stroke='var(--accent)' stroke-width='3'/>";
+    g+="<text x='"+cx+"' y='"+(y(Math.max(c0.demand,after))-6)+"' text-anchor='middle' font-size='11' font-weight='700' fill='"+(gap<0?"var(--bad)":"var(--ok)")+"'>"+signed(gap)+"</text>";
+    const dt=new Date(DATES[d]);
+    g+="<text x='"+cx+"' y='"+(H-bot+16)+"' text-anchor='middle' font-size='11' fill='var(--muted)'>"+dt.getUTCDate()+"</text>";
+    g+="<text x='"+cx+"' y='"+(H-bot+30)+"' text-anchor='middle' font-size='10' fill='var(--muted)'>"+["Su","Mo","Tu","We","Th","Fr","Sa"][dt.getUTCDay()]+"</text>";
+    if(d===selD) g+="<rect x='"+(x+2)+"' y='"+(top-4)+"' width='"+(bw-4)+"' height='"+(H-top-bot+6)+"' fill='none' stroke='var(--muted)' stroke-dasharray='2 3' rx='4'/>";
+  });
+  return "<svg viewBox='0 0 "+W+" "+H+"' width='100%' role='img' aria-label='Expected demand versus capacity on each peak day of the hotspot'>"+
+    "<line x1='"+padL+"' x2='"+(W-padR)+"' y1='"+y(0)+"' y2='"+y(0)+"' stroke='var(--line)'/>"+g+"</svg>";
+}
+function resultText(o){
+  const parts=[];
+  if(o.opt) parts.push(o.opt+" optimal");
+  if(o.tight) parts.push(o.tight+" tight");
+  if(o.spare) parts.push(o.spare+" spare seats");
+  if(o.short) parts.push(o.short+" still short");
+  return o.days+" peak days: "+parts.join(", ");
+}
+
+function compute(){
+  GRID0=SERIES.map((_,s)=>DATES.map((_,d)=>cell(s,d,0)));
+  RUNS=[]; RUNOF={};
+  SERIES.forEach((_,s)=>{ findRuns(s).forEach(r=>{RUNS.push(r); r.days.forEach(d=>RUNOF[s+":"+d]=r); for(let d=r.start;d<=r.end;d++) if(!RUNOF[s+":"+d]) RUNOF[s+":"+d]=r;}); });
+  EXTRA={};
+  RUNS.forEach(r=>{ const L=latest(r.key); if(L && L.flights && (L.dec==="Approve"||L.dec==="Adjust")){ r.days.forEach(d=>{ const n=L.flights[d]||0; if(n) EXTRA[r.s+":"+d]=n*A.flightSeats; }); } });
+  GRID=SERIES.map((_,s)=>DATES.map((_,d)=>cell(s,d,ex(s,d))));
+}
+// what a day shows on the map after decisions
+function dayView(s,d){
+  const c=GRID[s][d], c0=GRID0[s][d], e=ex(s,d), r=RUNOF[s+":"+d];
+  if(e>0){ const j=judge(c.load); return {cls:JUDGE_CLS[j]+(j==="short"?" add":""),label:JUDGE_TXT[j],pill:JUDGE_CLS[j],j}; }
+  const L=r?latest(r.key):null;
+  if(c0.status==="Peak" && r && r.act.k==="addcap" && !L) return {cls:"peak pend",label:"Peak · awaiting approval",pill:"peak",pending:true};
+  if(c0.status==="Peak" && L && L.dec==="Reject") return {cls:"peak",label:"Peak · recommendation rejected",pill:"peak"};
+  return {cls:c.status.toLowerCase(),label:c.status,pill:c.status.toLowerCase()};
+}
 
 function visibleSeries(){
   return SERIES.map((S,i)=>i).filter(i=>{
@@ -324,25 +578,6 @@ function visibleSeries(){
     if(state.view==="Agency") return S.agency;
     return true;
   });
-}
-// hotspot runs: consecutive Peak days per series (gaps of up to 2 days are bridged)
-function runs(s){
-  const out=[]; let cur=null, gap=0;
-  for(let d=0;d<ND;d++){
-    const c=GRID[s][d];
-    if(c.status==="Peak"){
-      if(cur && gap<=2){cur.end=d;cur.days.push(d);} else {cur={s,start:d,end:d,days:[d]};out.push(cur);}
-      gap=0;
-    } else if(cur){gap++; if(gap>2) cur=null;}
-  }
-  out.forEach(r=>{
-    let un=0,mx=0,drv={};
-    for(let d=r.start;d<=r.end;d++){const c=GRID[s][d]; if(c.status==="Peak"){un+=c.demand-c.cap;} mx=Math.max(mx,c.load); if(c.driver!=null) drv[c.driver]=(drv[c.driver]||0)+1;}
-    r.unserved=un; r.max=mx;
-    const k=Object.keys(drv).sort((a,b)=>drv[b]-drv[a])[0]; r.driver=k!=null?EVENTS[+k].n:"Weekly pattern";
-    r.first=GRID[s][r.start];
-  });
-  return out;
 }
 
 // ---------- render ----------
@@ -355,14 +590,12 @@ function renderRadar(){
   const vis=visibleSeries();
   const frag=document.createDocumentFragment();
   const add=(cls,txt,style)=>{const el=document.createElement("div");if(cls)el.className=cls;if(txt!=null)el.textContent=txt;if(style)el.style.cssText=style;frag.appendChild(el);return el;};
-  // month header
   add("label","",null);
   let d=0;
   while(d<ND){const m=new Date(DATES[d]).getUTCMonth(); let n=0; while(d+n<ND && new Date(DATES[d+n]).getUTCMonth()===m) n++;
     add("month",new Date(DATES[d]).toLocaleString("en-GB",{month:"long",year:"numeric",timeZone:"UTC"}),"grid-column:span "+n); d+=n;}
   add("","",null);
   for(let i=0;i<ND;i++){const dt=new Date(DATES[i]);add("daynum",(dt.getUTCDate()%7===1)?String(dt.getUTCDate()):"");}
-  // events relevant to visible series
   const evs=EVENTS.map((e,j)=>j).filter(j=>vis.some(s=>SERIES[s].u[j]!==1));
   evs.forEach(j=>{
     const e=EVENTS[j]; add("evlab",e.n,null).title=e.n;
@@ -383,103 +616,217 @@ function renderRadar(){
     lab.appendChild(document.createTextNode(S.n));
     lab.title=S.brand+" · "+S.story;
     for(let d=0;d<ND;d++){
-      const c=GRID[s][d];
-      const el=add("c "+c.status.toLowerCase()+(ex(s,d)?" add":"")+((c.wd===4||c.wd===5)?" wkend":""));
+      const c=GRID[s][d], v=dayView(s,d);
+      const el=add("c "+v.cls+((c.wd===4||c.wd===5)?" wkend":""));
       el.dataset.s=s; el.dataset.d=d; el.setAttribute("role","gridcell");
-      el.setAttribute("aria-label",S.n+", "+fmtG.format(new Date(c.t))+", "+c.status+", "+pct(c.load));
+      el.setAttribute("aria-label",S.n+", "+fmtG.format(new Date(c.t))+", "+v.label+", "+pct(c.load));
       if(state.sel.s===s && state.sel.d===d) el.classList.add("sel");
     }
   });
   radar.replaceChildren(frag);
-  if(!vis.includes(state.sel.s)) state.sel.s=vis[0];
 }
 function readout(s,d){
-  const c=GRID[s][d], S=SERIES[s];
-  $("readout").innerHTML="<b>"+S.n+"</b> · "+fmtG.format(new Date(c.t))+" · expected <b class='mono'>"+nf.format(c.demand)+"</b> vs "+nf.format(c.cap)+" "+S.unit+" · <b>"+pct(c.load)+"</b> · "+c.status+(c.driver!=null?" · "+EVENTS[c.driver].n:"");
+  const c=GRID[s][d], S=SERIES[s], v=dayView(s,d);
+  $("readout").innerHTML="<b>"+esc(S.n)+"</b> · "+fmtG.format(new Date(c.t))+" · expected <b class='mono'>"+nf.format(c.demand)+"</b> vs "+nf.format(c.cap)+" "+S.unit+" · gap <b>"+signed(c.cap-c.demand)+"</b> · <b>"+pct(c.load)+"</b> · "+esc(v.label)+(c.driver!=null?" · "+esc(EVENTS[c.driver].n):"");
+}
+
+function planRow(label,o,flightsTxt,cls){
+  const res="<div class='res'>"+
+    (o.opt?"<span>🟢 "+o.opt+" optimal</span>":"")+(o.tight?"<span>"+o.tight+" tight</span>":"")+
+    (o.spare?"<span>"+o.spare+" spare</span>":"")+(o.short?"<span style='color:var(--bad)'>"+o.short+" short</span>":"")+"</div>";
+  return "<tr class='"+(cls||"")+"'><td><b>"+label+"</b></td><td class='n'>"+flightsTxt+"</td><td>"+res+"</td><td class='n'>"+pct(o.avg)+"</td><td class='n'>"+(o.over?"+"+nf.format(o.over):"0")+"</td></tr>";
+}
+// seat gap = offered capacity minus expected demand: before any decision, and after (or if) the recommendation is applied
+function gapHtml(s,d,r,L){
+  const c=GRID[s][d], c0=GRID0[s][d], S=SERIES[s], u=S.unit;
+  const before=c0.cap-c0.demand;
+  let h="<div class='gapbox'><div><span class='label'>Seat gap before any decision</span><span class='g "+(before<0?"neg":"pos")+"'>"+signed(before)+"</span><span class='s'>"+
+    (before<0? nf.format(-before)+" "+(u==="seats"?"passengers would not get a seat":"guests would not get a room") : nf.format(before)+" "+u+" free · "+pct(c0.load)+" full")+"</span></div>";
+  if(ex(s,d)>0){
+    const after=c.cap-c.demand;
+    h+="<div><span class='label'>After the decision</span><span class='g "+(after<0?"neg":"pos")+"'>"+signed(after)+"</span><span class='s'>"+(after<0?nf.format(-after)+" still without a seat":nf.format(after)+" empty seats")+" · "+pct(c.load)+" full</span></div>";
+  } else if(r && r.act.k==="addcap" && r.rec[d]!=null && !(L&&L.dec==="Reject")){
+    const cap=c0.cap+r.rec[d]*A.flightSeats, after=cap-c0.demand;
+    h+="<div><span class='label'>If the recommendation is approved</span><span class='g "+(after<0?"neg":"pos")+"'>"+signed(after)+"</span><span class='s'>+"+r.rec[d]+" flight"+(r.rec[d]>1?"s":"")+" → "+pct(c0.demand/cap)+" full</span></div>";
+  }
+  return h+"</div>";
+}
+function verdictHtml(e,what){
+  if(e.verdict==="none") return "";
+  return e.verdict==="worth"
+    ? "Economics of "+what+": <span class='v-worth'>worth adding</span>. "+nf.format(e.out+e.ret)+" extra passengers bring "+sar(e.rev)+" against "+sar(e.cost)+" for "+e.flights+" round trip"+(e.flights>1?"s":"")+" (net "+sar(e.net)+")."
+    : "Economics of "+what+": <span class='v-not'>not covered by revenue</span>. "+nf.format(e.out+e.ret)+" extra passengers bring "+sar(e.rev)+" against "+sar(e.cost)+" (net "+sar(e.net)+"). Consider raising fares within the +"+pct(A.fairness)+" cap, a larger aircraft, or fewer flights.";
+}
+const pattern=(r,f)=>r.days.map(d=>f[d]||0).join(" · ");
+function totalTxt(r,f){ const v=r.days.map(d=>f[d]||0); const sum=v.reduce((a,b)=>a+b,0); return v.every(x=>x===v[0]) ? sum+" = "+v[0]+" × "+v.length+" days" : sum+" = "+v.join("+"); }
+function planHtml(r,L,n){
+  const recO=evalPlan(r,r.rec), adjF=uniform(r,n), adjO=evalPlan(r,adjF);
+  const curF=L&&L.flights?L.flights:null;
+  const days=r.days.map(d=>new Date(DATES[d]).getUTCDate()).join(" · ");
+  let t="<table class='plan'><thead><tr><th>Plan</th><th style='text-align:right'>Extra flights per peak day<br><span style='text-transform:none;letter-spacing:0'>dates: "+days+"</span></th><th>Result on the "+r.days.length+" peak days</th><th style='text-align:right'>Avg load</th><th style='text-align:right'>Over-supply</th></tr></thead><tbody>"+
+    planRow("Recommended",recO,pattern(r,r.rec))+planRow("Your adjustment",adjO,pattern(r,adjF),"mine")+
+    (curF?planRow("In effect now",evalPlan(r,curF),pattern(r,curF),"mine"):"")+"</tbody></table>";
+  const er=(label,f)=>{const e=econ(r,f), k=score(r,f); return "<tr><td><b>"+label+"</b></td><td class='n'>"+totalTxt(r,f)+"</td><td class='n'>"+nf.format(e.out)+" + "+nf.format(e.ret)+"</td><td class='n'>"+sar(e.rev)+"</td><td class='n'>"+sar(e.cost)+"</td><td class='n "+(e.net>=0?"v-worth":"v-not")+"'>"+sar(e.net)+"</td><td>"+(e.verdict==="none"?"–":e.verdict==="worth"?"<span class='v-worth'>Worth adding</span>":"<span class='v-not'>Not covered</span>")+"</td><td class='n'><b class='"+scoreCls(k.total)+"'>"+k.total+"</b><span class='hint'> ("+k.rev+" / "+k.v30+")</span></td></tr>";};
+  t+="<table class='plan' style='margin-top:10px'><thead><tr><th>Economics</th><th style='text-align:right'>Total extra flights ("+r.days.length+" days)</th><th style='text-align:right'>Pax gained out + return</th><th style='text-align:right'>Revenue</th><th style='text-align:right'>Cost</th><th style='text-align:right'>Net</th><th>Verdict</th><th style='text-align:right'>Score (rev / 2030)</th></tr></thead><tbody>"+
+    er("Recommended",r.rec)+er("Your adjustment",adjF)+(curF?er("In effect now",curF):"")+"</tbody></table>";
+  return "<div class='scroll'>"+t+"</div>";
 }
 function renderDetail(){
-  const {s,d}=state.sel; const c=GRID[s][d], S=SERIES[s], a=action(c), ag=agencyAction(c);
-  const run=runs(s).find(r=>d>=r.start&&d<=r.end);
-  const fill=c.status==="Peak"?"var(--peak)":c.status==="High"?"var(--high)":c.status==="Low"?"var(--low)":"var(--accent)";
+  const {s,d}=state.sel; const c=GRID[s][d], c0=GRID0[s][d], S=SERIES[s], v=dayView(s,d);
+  const r=RUNOF[s+":"+d];
+  const a=r? r.act : action(c0);
+  const ag=agencyAction(r?r.first:c0);
+  const L=r?latest(r.key):null;
+  const fill=v.pill==="peak"?"var(--peak)":v.pill==="high"?"var(--high)":v.pill==="low"?"var(--low)":(v.pill==="cov"||v.pill==="tight"||v.pill==="spare")?"var(--good)":"var(--accent)";
   const scale=Math.max(1.25,c.load*1.05);
-  let why="<tr><td>Normal day for "+S.n+"</td><td class='n'>"+nf.format(S.base)+" "+S.unit+"</td></tr>";
+  let why="<tr><td>Normal day for "+esc(S.n)+"</td><td class='n'>"+nf.format(S.base)+" "+S.unit+"</td></tr>";
   why+="<tr><td>"+["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][c.wd]+" effect</td><td class='n'>× "+c.wf.toFixed(2)+"</td></tr>";
   if(c.active.length===0) why+="<tr><td class='muted'>No events on this day</td><td class='n'>× 1.00</td></tr>";
-  c.active.forEach(j=>{why+="<tr><td>"+EVENTS[j].n+(S.u[j]===1?" <span class='muted'>(no effect here)</span>":"")+"</td><td class='n'>× "+S.u[j].toFixed(2)+"</td></tr>";});
+  c.active.forEach(j=>{why+="<tr><td>"+esc(EVENTS[j].n)+(S.u[j]===1?" <span class='muted'>(no effect here)</span>":"")+"</td><td class='n'>× "+S.u[j].toFixed(2)+"</td></tr>";});
   if(c.prod>A.cap) why+="<tr><td class='muted'>Combined effect capped at</td><td class='n'>× "+A.cap.toFixed(2)+"</td></tr>";
   why+="<tr class='tot'><td>Expected demand</td><td class='n'>"+nf.format(c.demand)+" "+S.unit+"</td></tr>";
-  why+="<tr><td>Capacity"+(ex(s,d)?" <span class='muted'>(incl. +"+ex(s,d)+" added)</span>":"")+"</td><td class='n'>"+nf.format(c.cap)+" "+S.unit+"</td></tr>";
-  why+="<tr class='tot'><td>Load</td><td class='n'>"+pct(c.load)+"</td></tr>";
-  const datesTxt= run? fmtGS.format(new Date(DATES[run.start]))+" – "+fmtGS.format(new Date(DATES[run.end]))+" ("+run.days.length+" peak days)" : fmtGS.format(new Date(c.t));
-  const decided=state.log.find(l=>l.s===s && d>=l.a && d<=l.b);
-  const fair=(c.status==="Peak"||c.status==="High")?"Fairness rule: price rise capped at +"+Math.round(A.fairness*100)+"% vs normal.":"";
-  const canDecide=a.k!=="none";
+  why+="<tr><td>Planned capacity</td><td class='n'>"+nf.format(c0.cap)+" "+S.unit+"</td></tr>";
+  if(ex(s,d)) why+="<tr><td>Added by decision ("+(ex(s,d)/A.flightSeats)+" extra flight"+(ex(s,d)/A.flightSeats>1?"s":"")+")</td><td class='n'>+"+nf.format(ex(s,d))+" "+S.unit+"</td></tr>";
+  why+="<tr class='tot'><td>Load</td><td class='n'>"+pct(c.load)+(ex(s,d)&&c.load<A.optLow?" <span class='muted'>· "+nf.format(c.cap-c.demand)+" empty</span>":"")+"</td></tr>";
+
+  let act="";
+  if(r && a.k==="addcap"){
+    const dayNeed=r.rec[d];
+    act="<div class='act'><span class='label'>Recommended action"+(L?"":" · awaiting stakeholder approval")+"</span>"+
+      "<span class='what'>Add "+(r.recMin===r.recMax?r.recMax:r.recMin+"–"+r.recMax)+" extra flight"+(r.recMax>1?"s":"")+" per day ("+r.recTotal+" in total)</span>"+
+      needHtml(r,d)+
+      "<span class='meta'>Hotspot "+range(r.start,r.end)+" · "+r.days.length+" peak days · "+r.first.ahead+" days ahead: enough lead time (threshold "+A.capLead+") to add "+A.flightSeats+"-seat flights. "+
+      (dayNeed!=null?"This day needs <b>"+dayNeed+"</b> to reach the optimal band ("+pct(A.optLow)+"–"+pct(A.optHigh)+"). ":"")+"Fairness rule: price rise capped at +"+pct(A.fairness)+".</span>"+
+      "<span class='meta' id='verdict'>"+verdictHtml(econ(r,r.rec),"the recommendation")+"</span>"+
+      (ag?"<span class='meta'><b>Rihla Travel:</b> "+esc(ag)+"</span>":"")+"</div>";
+  } else {
+    const fair=(c0.status==="Peak"||c0.status==="High")?"Fairness rule: price rise capped at +"+pct(A.fairness)+" vs normal.":"";
+    act="<div class='act'><span class='label'>Recommended action</span><span class='what'>"+esc(a.t)+"</span>"+
+      "<span class='meta'>"+(r?"Applies to the hotspot "+range(r.start,r.end)+". ":"")+(a.k==="protect"?"Under "+A.capLead+" days ahead: too late to add flights, so protect the seats we have. ":"")+fair+"</span>"+
+      (ag?"<span class='meta'><b>Rihla Travel:</b> "+esc(ag)+"</span>":"")+"</div>";
+  }
+
+  let decide="";
+  if(r && a.k==="addcap"){
+    const recO=evalPlan(r,r.rec);
+    const defN = L&&L.dec==="Adjust"&&L.uniform!=null ? L.uniform : (r.rec[d]!=null?r.rec[d]:r.recMax);
+    const banner = L ? "<div class='banner "+(L.dec==="Reject"?"no":"ok")+"'><b class='d-"+L.dec.toLowerCase()+"'>"+(L.dec==="Approve"?"Approved":L.dec==="Adjust"?"Adjusted":"Rejected")+"</b> by "+esc(L.who)+" · "+esc(L.result||"")+(L.note?" · “"+esc(L.note)+"”":"")+"</div>"
+                     : "<div class='banner wait'><b>Awaiting approval.</b> Nothing changes on the map until a named person decides.</div>";
+    const E=econOf(s);
+    decide="<div class='decide'>"+banner+
+      (L?scorecardHtml(r,L.flights||{},"Decision scorecard"):"")+
+      "<div id='planWrap'></div>"+
+      "<div class='econ'><span class='label'>Flight economics · illustrative, edit to test</span>"+
+      "<div class='inputs'><label for='fare'>Average one-way fare on peak days ("+esc(ROUTE[s])+"), SAR<input id='fare' type='number' min='0' step='10' value='"+E.fare+"'></label>"+
+      "<label for='trip'>Cost of one extra round trip, SAR<input id='trip' type='number' min='0' step='1000' value='"+E.trip+"'></label></div>"+
+      "<div class='hint'>Passengers gained = people who would otherwise not get a seat that day, on the outbound leg and on the return leg ("+esc(SERIES[PAIR[s]].n)+"). Extra seats beyond that earn nothing.</div></div>"+
+      (L?"<div><span class='label'>Revise this decision</span><div class='hint'>Choose again below. The new decision replaces the one in effect immediately; the log keeps both.</div></div>":"")+
+      "<div class='row'><input id='who' placeholder='Approver: name and role' value='"+esc(state.who)+"' aria-label='Approver name and role'><input id='note' placeholder='Reason (needed to adjust or reject)' aria-label='Reason'></div>"+
+      "<div class='row' style='align-items:flex-end'>"+
+        "<button class='btn approve' data-dec='Approve'>Approve recommendation</button>"+
+        "<label for='flt'>Adjust: flights / day<input id='flt' type='number' min='0' max='12' step='1' value='"+defN+"'></label>"+
+        "<button class='btn' data-dec='Adjust'>Apply adjustment</button>"+
+        "<button class='btn reject' data-dec='Reject'>Reject</button></div>"+
+      "<div class='flash' id='flash'></div>"+
+      "<div class='hint'>Adjusting applies the same number of extra flights to every peak day in the hotspot, takes effect immediately, and shows any over-supply. A new decision replaces the previous one; the log keeps both.</div></div>";
+  } else if(r && a.k!=="none"){
+    const banner = L ? "<div class='banner "+(L.dec==="Reject"?"no":"ok")+"'><b class='d-"+L.dec.toLowerCase()+"'>"+L.dec+"</b> by "+esc(L.who)+(L.note?" · “"+esc(L.note)+"”":"")+"</div>" : "<div class='banner wait'><b>Awaiting a decision.</b></div>";
+    decide="<div class='decide'>"+banner+
+      (L?"<div><span class='label'>Revise this decision</span><div class='hint'>The new decision replaces the one in effect; the log keeps both.</div></div>":"")+
+      "<div class='row'><input id='who' placeholder='Approver: name and role' value='"+esc(state.who)+"' aria-label='Approver name and role'><input id='note' placeholder='Reason (needed to adjust or reject)' aria-label='Reason'></div>"+
+      "<div class='row'><button class='btn approve' data-dec='Approve'>Approve</button><button class='btn' data-dec='Adjust'>Adjust</button><button class='btn reject' data-dec='Reject'>Reject</button></div>"+
+      "<div class='flash' id='flash'></div></div>";
+  } else {
+    decide="<p class='hint' style='margin-top:12px'>Not a hotspot: nothing to decide on this day.</p>";
+  }
+
   $("detail").innerHTML=
-   "<div class='det-head'><div><span class='label'>"+S.brand+" · "+S.story+"</span><h3>"+S.n+"</h3>"+
+   "<div class='det-head'><div><span class='label'>"+esc(S.brand)+" · "+esc(S.story)+"</span><h3>"+esc(S.n)+"</h3>"+
    "<div class='when'>"+fmtGL.format(new Date(c.t))+(hijri(c.t)?" · "+hijri(c.t):"")+" · "+c.ahead+" days ahead</div></div>"+
-   "<span class='pill "+c.status.toLowerCase()+"'>"+c.status+" · "+pct(c.load)+"</span></div>"+
+   "<span class='pill "+v.pill+"'>"+esc(v.label)+" · "+pct(c.load)+"</span></div>"+
    "<div class='meter' aria-hidden='true'><i style='width:"+Math.min(100,c.load/scale*100)+"%;background:"+fill+"'></i><span class='capline' style='left:calc("+(100/scale)+"% - 1px)'></span></div>"+
    "<div class='mrow'><span>Expected "+nf.format(c.demand)+"</span><span>Capacity "+nf.format(c.cap)+"</span></div>"+
-   "<div class='why'><span class='label'>Why this number</span><table>"+why+"</table></div>"+
-   "<div class='act'><span class='label'>Recommended action</span><span class='what'>"+a.t+"</span>"+
-   "<span class='meta'>"+(run?"Applies to the hotspot "+datesTxt+". ":"")+(a.k==="addcap"?"Enough lead time ("+c.ahead+" days, threshold "+A.capLead+") to add a "+A.flightSeats+"-seat flight. ":"")+(a.k==="protect"?"Under "+A.capLead+" days ahead: too late to add flights, so protect the seats we have. ":"")+fair+"</span>"+
-   (ag?"<span class='meta'><b>Rihla Travel:</b> "+ag+"</span>":"")+"</div>"+
-   (canDecide?
-   "<div class='decide'>"+
-   (decided?"<div class='hint'>Decided: <b class='d-"+decided.dec.toLowerCase()+"'>"+decided.dec+"</b> by "+esc(decided.who||"–")+(decided.note?" · "+esc(decided.note):"")+"</div>":"")+
-   "<div class='row'><input id='who' placeholder='Your name and role (e.g. Revenue Manager)' value='"+esc(state.who)+"' aria-label='Approver'><input id='note' placeholder='Note (needed for Adjust or Reject)' aria-label='Note'></div>"+
-   "<div class='row'><button class='btn approve' data-dec='Approve'>Approve</button><button class='btn' data-dec='Adjust'>Adjust</button><button class='btn reject' data-dec='Reject'>Reject</button></div>"+
-   "<div class='flash' id='flash'></div><div class='hint'>The model recommends. A named person decides, and every decision is logged.</div></div>"
-   :"<p class='hint'>Nothing to decide on this day.</p>");
-  $("detail").querySelectorAll("[data-dec]").forEach(b=>b.addEventListener("click",()=>decide(b.dataset.dec,run,c,a)));
+   gapHtml(s,d,r,L)+
+   (r?"<div class='chartwrap'><span class='label'>Hotspot "+range(r.start,r.end)+": expected demand vs seats, each peak day</span>"+chartSvg(r,(L&&L.flights)?L.flights:{},d)+
+     "<div class='chartlegend'><span><i style='border-top:3px solid var(--peak)'></i>Demand above seats</span><span><i style='border-top:3px solid var(--good)'></i>Demand covered</span><span><i style='border-top:2px dashed var(--ink)'></i>Planned seats</span>"+(S.sector==="Airline"?"<span><i style='border-top:3px solid var(--accent)'></i>Seats after decision</span>":"")+"<span>Numbers: seat gap (− short, + spare)</span></div></div>":"")+
+   "<div class='why'><span class='label'>Why this number</span><table>"+why+"</table></div>"+act+decide;
+
   const w=$("who"); if(w) w.addEventListener("input",()=>{state.who=w.value;save();});
+  const f=$("flt"); if(f && r){
+    const L=latest(r.key);
+    const upd=()=>{ const n=Math.max(0,Math.min(12,parseInt(f.value,10)||0)); $("planWrap").innerHTML=planHtml(r,L,n); const v=$("verdict"); if(v) v.innerHTML=verdictHtml(econ(r,r.rec),"the recommendation"); };
+    f.addEventListener("input",upd);
+    ["fare","trip"].forEach(id=>{const el=$(id); if(el) el.addEventListener("input",()=>{ const R=ROUTE[r.s]; state.econ[R]={fare:Math.max(0,+$("fare").value||0),trip:Math.max(0,+$("trip").value||0)}; save(); upd(); });});
+    upd();
+  }
+  $("detail").querySelectorAll("[data-dec]").forEach(b=>b.addEventListener("click",()=>decide_(b.dataset.dec,r,c0,a)));
 }
-function esc(x){return String(x||"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));}
-function decide(dec,run,c,a){
-  const note=($("note").value||"").trim(), who=($("who").value||"").trim();
-  if(!who){$("flash").style.color="var(--bad)";$("flash").textContent="Add your name and role first: every decision needs an owner.";return;}
-  if(dec!=="Approve" && !note){$("flash").style.color="var(--bad)";$("flash").textContent="Add a short note to explain an Adjust or Reject.";return;}
-  const aIdx=run?run.start:c.d, bIdx=run?run.end:c.d;
-  if(dec==="Approve" && a.k==="addcap"){ (run?run.days:[c.d]).forEach(d=>{state.extra[c.s+":"+d]=(state.extra[c.s+":"+d]||0)+A.flightSeats;}); }
-  state.log.unshift({at:Date.now(),who,s:c.s,a:aIdx,b:bIdx,rec:a.t,dec,note,applied:dec==="Approve"&&a.k==="addcap"});
-  save(); compute(); renderAll();
-  const f=$("flash"); if(f){f.style.color="var(--ok)"; f.textContent=dec==="Approve"&&a.k==="addcap"?"Approved. One extra flight added on these dates; the radar has updated.":dec+" recorded in the log.";}
+function decide_(dec,r,c0,a){
+  const note=(($("note")||{}).value||"").trim(), who=(($("who")||{}).value||"").trim();
+  const flash=$("flash"); const fail=t=>{flash.style.color="var(--bad)";flash.textContent=t;};
+  if(!who) return fail("Add the approver's name and role first: every decision needs one accountable owner.");
+  if(dec!=="Approve" && !note) return fail("Add a short reason to explain an adjustment or a rejection.");
+  const prev=latest(r.key);
+  const entry={at:Date.now(),who,key:r.key,s:r.s,a:r.start,b:r.end,rec:a.t,dec,note,revises:prev?prev.dec:null};
+  if(a.k==="addcap"){
+    entry.recTxt=(r.recMin===r.recMax?r.recMax:r.recMin+"–"+r.recMax);
+    entry.rec="Add "+entry.recTxt+" extra flights / day";
+    if(dec==="Approve"){ entry.flights=Object.assign({},r.rec); entry.uniform=null; }
+    if(dec==="Adjust"){ const n=Math.max(0,Math.min(12,parseInt(($("flt")||{}).value,10)||0)); entry.flights=uniform(r,n); entry.uniform=n; }
+    if(entry.flights){ const o=evalPlan(r,entry.flights), e=econ(r,entry.flights); entry.result=resultText(o)+" · net "+sar(e.net); entry.over=o.over; entry.short=o.short; entry.net=e.net; }
+    else entry.result="No capacity added";
+    const k=score(r,entry.flights||{}); entry.score=k.total; entry.scoreTxt=k.verdict+" ("+k.rev+" revenue / "+k.v30+" Vision 2030)";
+  } else { entry.result=dec==="Reject"?"Not applied":"Recorded"; }
+  state.log.unshift(entry); save(); compute(); renderAll();
+  const f=$("flash"); if(f){ f.style.color="var(--ok)";
+    f.textContent = dec==="Reject" ? "Rejected and logged. The peak stays open." :
+      (a.k==="addcap" ? (dec==="Approve"?"Approved. ":"Adjustment applied. ")+entry.result+(entry.over?" · over-supply +"+nf.format(entry.over)+" seats":"")+"." : dec+" recorded in the log."); }
 }
 function renderHot(){
   const vis=visibleSeries();
-  let all=[]; vis.forEach(s=>all=all.concat(runs(s)));
-  all.sort((x,y)=>x.start-y.start||y.unserved-x.unserved);
+  const all=RUNS.filter(r=>vis.includes(r.s)).sort((x,y)=>x.start-y.start||y.unserved-x.unserved);
   $("hotCount").textContent=all.length+" hotspot"+(all.length===1?"":"s");
   if(!all.length){$("hot").innerHTML="<div class='empty'>No peaks in this view. Every route and city stays within capacity.</div>";return;}
   $("hot").innerHTML=all.map(r=>{
-    const S=SERIES[r.s], c=r.first, a=action(c), ag=agencyAction(c);
-    const txt=state.view==="Agency"&&ag?ag:a.t;
-    return "<button class='hcard' data-s='"+r.s+"' data-d='"+r.start+"'><span class='bar'></span>"+
-      "<span class='t'>"+S.n+" <span class='r'>· "+fmtGS.format(new Date(DATES[r.start]))+(r.end>r.start?" – "+fmtGS.format(new Date(DATES[r.end])):"")+"</span></span>"+
+    const S=SERIES[r.s], L=latest(r.key), ag=agencyAction(r.first);
+    let txt=state.view==="Agency"&&ag?ag:(r.act.k==="addcap"?"Add "+(r.recMin===r.recMax?r.recMax:r.recMin+"–"+r.recMax)+" extra flights / day":r.act.t);
+    let chip="";
+    if(r.act.k==="addcap"){
+      if(!L) chip="<span class='chip-s wait'>Awaiting approval</span>";
+      else if(L.dec==="Reject") chip="<span class='chip-s no'>Rejected</span>";
+      else chip= L.short? "<span class='chip-s part'>"+L.short+" days short</span>" : "<span class='chip-s ok'>Covered</span>";
+    } else if(L) chip="<span class='chip-s "+(L.dec==="Reject"?"no":"ok")+"'>"+L.dec+"</span>";
+    const bar = L&&L.flights&&!L.short ? "var(--good)" : "var(--peak)";
+    return "<button class='hcard' data-s='"+r.s+"' data-d='"+r.start+"'><span class='bar' style='background:"+bar+"'></span>"+
+      "<span class='t'>"+esc(S.n)+" <span class='r'>· "+range(r.start,r.end)+"</span>"+chip+"</span>"+
       "<span class='k'>max "+pct(r.max)+"</span>"+
-      "<span class='r'>"+esc(r.driver)+" · in "+c.ahead+" days</span><span class='k'>+"+nf.format(r.unserved)+" "+S.unit+"</span>"+
+      "<span class='r'>"+esc(r.driver)+" · in "+r.first.ahead+" days</span><span class='k' style='color:var(--bad)'>−"+nf.format(r.unserved)+" "+S.unit+"</span>"+
       "<span class='a'>"+esc(txt)+"</span></button>";
   }).join("");
   $("hot").querySelectorAll(".hcard").forEach(b=>b.addEventListener("click",()=>{select(+b.dataset.s,+b.dataset.d,true);}));
 }
 function renderSummary(){
   const vis=visibleSeries(); let peaks=0,un=0,next=null;
-  vis.forEach(s=>GRID[s].forEach(c=>{ if(c.status==="Peak"){peaks++;un+=c.demand-c.cap; if(!next||c.t<next.t) next=c;} }));
+  vis.forEach(s=>GRID[s].forEach(c=>{ if(c.load>=A.peak){peaks++;un+=c.demand-c.cap; if(!next||c.t<next.t) next=c;} }));
   $("kPeak").textContent=nf.format(peaks);
-  $("kPeakSub").textContent="route- or city-days over capacity across "+vis.length+" "+(vis.length===1?"line":"lines");
+  $("kPeakSub").textContent="route- or city-days still over capacity";
   if(next){$("kNext").textContent=fmtGS.format(new Date(next.t)); $("kNextSub").textContent=SERIES[next.s].n+" · in "+next.ahead+" days";}
-  else {$("kNext").textContent="None"; $("kNextSub").textContent="";}
+  else {$("kNext").textContent="None"; $("kNextSub").textContent="every peak covered";}
   $("kUnserved").textContent=nf.format(un);
-  const n=state.log.length, ap=state.log.filter(l=>l.dec==="Approve").length;
-  $("kDec").textContent=n; $("kDecSub").textContent=n?ap+" approved · "+state.log.filter(l=>l.applied).length+" added capacity":"none yet";
+  const waiting=RUNS.filter(r=>vis.includes(r.s)&&r.act.k==="addcap"&&!latest(r.key)).length;
+  const keys=new Set(), cur=[]; state.log.forEach(l=>{ if(!keys.has(l.key)){keys.add(l.key);cur.push(l);} });
+  $("kDec").textContent=state.log.length;
+  $("kDecSub").textContent=waiting+" capacity hotspot"+(waiting===1?"":"s")+" awaiting approval";
+  let over=0; cur.forEach(l=>{ if(l.over && vis.includes(l.s)) over+=l.over; });
+  $("kOver").textContent=(over?"+":"")+nf.format(over);
 }
 function renderLog(){
   $("logEmpty").hidden=state.log.length>0;
-  $("logBody").innerHTML=state.log.map(l=>"<tr><td class='mono'>"+new Date(l.at).toLocaleString("en-GB",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"})+"</td><td>"+esc(l.who)+"</td><td>"+esc(SERIES[l.s].n)+"</td><td>"+fmtGS.format(new Date(DATES[l.a]))+(l.b>l.a?" – "+fmtGS.format(new Date(DATES[l.b])):"")+"</td><td>"+esc(l.rec)+"</td><td class='d-"+l.dec.toLowerCase()+"'>"+l.dec+"</td><td>"+esc(l.note)+"</td></tr>").join("");
+  $("logBody").innerHTML=state.log.map(l=>"<tr><td class='mono'>"+new Date(l.at).toLocaleString("en-GB",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"})+"</td><td>"+esc(l.who)+"</td><td>"+esc(SERIES[l.s].n)+"</td><td>"+range(l.a,l.b)+"</td><td>"+esc(l.rec)+"</td><td class='d-"+l.dec.toLowerCase()+"'>"+(l.revises?"<span class='hint' style='font-weight:400'>Revised ("+esc(l.revises)+" →)</span><br>":"")+l.dec+"</td><td class='mono'>"+(l.flights?Object.keys(l.flights).sort((x,y)=>x-y).map(k=>l.flights[k]).join(" · "):"–")+"</td><td>"+esc(l.result||"")+(l.over?" · over-supply +"+nf.format(l.over):"")+"</td><td>"+(l.score!=null?"<b class='"+scoreCls(l.score)+"'>"+l.score+"</b> "+esc(l.scoreTxt):"–")+"</td><td>"+esc(l.note)+"</td></tr>").join("");
 }
 const VIEWTEXT={
   all:"Event-driven demand for the next 90 days across SkyLink routes, Najd Hotels and Rihla Travel. Click any day to see why it is busy and what to do. The AI recommends; a named person decides.",
-  Airline:"SkyLink Saudi revenue view: where flights will run over capacity, and whether there is still time to add a flight or only time to protect seats.",
+  Airline:"SkyLink Saudi revenue view: where flights will run over capacity, how many extra flights fix it, and whether there is still time to add them.",
   Hotel:"Najd Hotels revenue view: which nights fill up in Makkah, Madinah and Riyadh, with rate and minimum-stay advice inside the fairness cap.",
   Agency:"Rihla Travel view: the seats and rooms your Umrah and package customers need, and when to book blocks before prices rise."
 };
@@ -493,8 +840,8 @@ function select(s,d,scroll){
   radar.querySelectorAll(".c.sel").forEach(e=>e.classList.remove("sel"));
   const el=radar.querySelector(".c[data-s='"+s+"'][data-d='"+d+"']"); if(el){el.classList.add("sel"); if(scroll) el.scrollIntoView({block:"nearest",inline:"center",behavior:"smooth"});}
   readout(s,d); renderDetail();
+  if(!$("askPanel").hidden) askCtx();
 }
-// events
 radar.addEventListener("click",e=>{const c=e.target.closest(".c"); if(c) select(+c.dataset.s,+c.dataset.d);});
 radar.addEventListener("mouseover",e=>{const c=e.target.closest(".c"); if(c) readout(+c.dataset.s,+c.dataset.d);});
 radar.addEventListener("keydown",e=>{
@@ -504,17 +851,119 @@ radar.addEventListener("keydown",e=>{
   e.preventDefault(); select(vis[i],d,true);
 });
 document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>{
-  state.view=b.dataset.view; document.querySelectorAll(".tab").forEach(x=>x.setAttribute("aria-pressed",x===b?"true":"false"));
-  const vis=visibleSeries(); if(!vis.includes(state.sel.s)) state.sel.s=vis[0]; renderAll();
+  state.view=b.dataset.view; document.querySelectorAll(".tab").forEach(x=>x.setAttribute("aria-pressed",x===b?"true":"false")); renderAll();
 }));
 document.querySelectorAll(".chip").forEach(b=>b.addEventListener("click",()=>{
-  state.story=b.dataset.story; document.querySelectorAll(".chip").forEach(x=>x.setAttribute("aria-pressed",x===b?"true":"false"));
-  const vis=visibleSeries(); if(!vis.length){state.story="all";} if(!visibleSeries().includes(state.sel.s)) state.sel.s=visibleSeries()[0]; renderAll();
+  state.story=b.dataset.story; document.querySelectorAll(".chip").forEach(x=>x.setAttribute("aria-pressed",x===b?"true":"false")); renderAll();
 }));
-$("resetBtn").addEventListener("click",()=>{state.log=[];state.extra={};save();compute();renderAll();});
+let resetArm=null;
+$("resetBtn").addEventListener("click",()=>{
+  const b=$("resetBtn");
+  if(!resetArm){ b.textContent="Click again to clear every decision"; b.style.color="var(--bad)"; resetArm=setTimeout(()=>{resetArm=null;b.textContent="Clear log";b.style.color="";},4000); return; }
+  clearTimeout(resetArm); resetArm=null; b.textContent="Clear log"; b.style.color="";
+  state.log=[];save();compute();renderAll();
+});
+
+// ---------- Ask the co-pilot ----------
+const BRIEF = `You are the co-pilot inside "Travel Demand Radar", the prototype built by Team 3 (Aviation, Travel & Hospitality) for the HRDF HADAF AI Leadership Program (ESCP Business School) Action Learning Project. You answer questions from team members, coaches and stakeholders about what the page shows. Be clear, short and practical; use plain English (or Arabic if the question is in Arabic). Use the numbers given in the screen context; never invent figures. When something is an assumption, say so.
+
+THE PROJECT
+- Challenge: demand swings sharply around Riyadh Season, Hajj and Umrah, major events and school holidays; pricing and capacity decisions react too late (seats and rooms are sold early at the lowest prices before the peak is visible; capacity is missing on peak routes; travellers face sold-out flights).
+- Solution: one shared engine (events calendar + demand signals -> 90-day demand forecast) with three views: SkyLink Saudi (airline: fares, extra flights), Najd Hotels (rates, minimum stay), Rihla Travel (agency: when to book seat and room blocks). The AI recommends; one named human approves (single approver). Every decision is logged.
+- User: revenue and package managers. Buyer: commercial leaders or a shared-platform sponsor. Final consumer: the traveller (pilgrims, event visitors, tourists).
+- Vision 2030 link: National Tourism Strategy (150 million visits target) and National Civil Aviation Strategy; Quality of Life Program.
+- All brands are fictional. Baselines, capacities, weekday factors, event effects, fares and flight costs are illustrative team assumptions, not company data. Ramadan and Eid 2027 dates are astronomical estimates.
+
+THE MODEL
+- Window 1 Jan - 31 Mar 2027; "today" is 31 Dec 2026.
+- Expected demand = normal day (baseline) x weekday effect x event effect (overlapping events multiplied, capped at x2.5). Normal day is about 78% of seats for routes, 72% occupancy for hotels.
+- Load = expected demand / capacity. Status: Low under 60%, Normal 60-84%, High 85-99%, Peak 100% or more.
+- Routes: 6 daily flights x 186 seats RUH-JED (1,116 seats), 3 DMM-JED (558), 2 RUH-MED (372), 4 DMM-RUH (744), each direction.
+- Action by lead time: Peak 30+ days ahead -> add capacity (extra 186-seat flights); under 30 days -> protect seats (close lowest fare classes). Agency books blocks if 45+ days ahead. Fairness cap: price rise max +25% vs normal (Hajj/Umrah fairness).
+- Recommended extra flights for each peak day = round up ((expected demand / 0.95) - planned seats) / 186: the smallest number keeping the plane at or below 95% full. The total is the sum across peak days.
+- After a decision each peak day is judged: Covered optimal 85-95% (green), Covered tight 95-100%, Covered spare seats under 85% (striped green = over-supply), Still short 100%+ (orange). Over-supply = seats added beyond the recommendation.
+- Economics: passengers gained = people who would otherwise not get a seat that day, outbound plus return leg (reverse route). Revenue = passengers gained x average one-way peak fare. Cost = extra flights x cost of one extra round trip. Net = revenue - cost. Verdict: worth adding if net >= 0.
+- Decision scorecard (50/50): Revenue score = 50 at break-even, +1 per 1% return on the extra flights' cost, 100 at +50% or better, 0 at -50% or worse, 50 if no flights added. Vision 2030 score = share of travellers who would have been turned away who now get a seat. Overall = 0.5 x revenue + 0.5 x Vision 2030. 80+ Strong, 60-79 Good, 40-59 Mixed, under 40 Weak.
+- Real-world caveats worth mentioning when relevant: aircraft, crew and slot availability; weight restrictions can reduce sellable seats; a larger aircraft may beat an extra flight on small routes; the return leg can be empty.
+
+HOW TO ANSWER
+- Lead with the answer, then the reason in one or two lines of arithmetic using the screen numbers.
+- If the question needs data the page does not have, say what is missing.
+- Keep answers under about 180 words unless asked for more.`;
+
+function ctxText(){
+  const {s,d}=state.sel; const c=GRID[s][d], c0=GRID0[s][d], S=SERIES[s], v=dayView(s,d), r=RUNOF[s+":"+d];
+  const L=r?latest(r.key):null;
+  const lines=[];
+  lines.push("View: "+state.view+"; story filter: "+state.story);
+  lines.push("Selected: "+S.n+" ("+S.brand+", "+S.sector+", "+S.story+") on "+fmtGL.format(new Date(c.t))+(hijri(c.t)?" / "+hijri(c.t):"")+", "+c.ahead+" days ahead");
+  lines.push("Expected demand "+c.demand+" "+S.unit+"; planned capacity "+c0.cap+"; capacity now "+c.cap+"; gap before decision "+(c0.cap-c0.demand)+"; gap now "+(c.cap-c.demand)+"; load now "+pct(c.load)+"; status: "+v.label);
+  lines.push("Why: normal day "+S.base+" x weekday "+c.wf.toFixed(2)+(c.active.length?" x "+c.active.map(j=>EVENTS[j].n+" "+S.u[j].toFixed(2)).join(" x "):"")+(c.prod>A.cap?" (capped at "+A.cap+")":""));
+  if(r){
+    lines.push("Hotspot "+range(r.start,r.end)+": "+r.days.length+" peak days; main driver "+r.driver+"; recommended action: "+(r.act.k==="addcap"?"add extra flights":r.act.t));
+    if(r.act.k==="addcap"){
+      lines.push("Per peak day (date: demand / gap / recommended flights): "+r.days.map(dd=>{const x=GRID0[s][dd];return fmtGS.format(new Date(x.t))+": "+x.demand+" / "+(x.cap-x.demand)+" / "+r.rec[dd];}).join("; "));
+      const E=econOf(s), er=econ(r,r.rec), kr=score(r,r.rec);
+      lines.push("Economics inputs: fare SAR "+E.fare+", round trip SAR "+E.trip+". Recommended plan: "+er.flights+" flights, pax gained "+er.out+" out + "+er.ret+" return, revenue "+sar(er.rev)+", cost "+sar(er.cost)+", net "+sar(er.net)+", score "+kr.total+" ("+kr.rev+" revenue / "+kr.v30+" Vision 2030, "+kr.verdict+")");
+    }
+    if(L){
+      let t="Decision in effect: "+L.dec+" by "+L.who+(L.note?" (reason: "+L.note+")":"");
+      if(L.flights){ const ec=econ(r,L.flights), k=score(r,L.flights), o=evalPlan(r,L.flights); t+="; flights per peak day "+pattern(r,L.flights)+"; "+resultText(o)+"; over-supply "+o.over+" seats; net "+sar(ec.net)+"; score "+k.total+" ("+k.rev+"/"+k.v30+", "+k.verdict+")"; }
+      lines.push(t);
+    } else lines.push("No decision yet (awaiting approval).");
+  } else lines.push("This day is not part of a hotspot.");
+  const vis=visibleSeries(); let open=0,un=0; vis.forEach(x=>GRID[x].forEach(cc=>{if(cc.load>=A.peak){open++;un+=cc.demand-cc.cap;}}));
+  lines.push("Page summary for this view: open peak days "+open+"; unserved demand "+un+"; decisions logged "+state.log.length);
+  return lines.join("\n");
+}
+const askBtn=$("askBtn"), askPanel=$("askPanel"), askLog=$("askLog"), askInput=$("askInput"), askSend=$("askSend"), askStop=$("askStop");
+let sampleFn=null, sampleReady=false, askTurns=[], askCtl=null, askBusy=false;
+function addMsg(cls,text){ const m=document.createElement("div"); m.className="msg "+cls; m.textContent=text; askLog.appendChild(m); askLog.scrollTop=askLog.scrollHeight; return m; }
+function askCtx(){ const {s,d}=state.sel; $("askCtx").textContent="Context sent: "+SERIES[s].n+", "+fmtGS.format(new Date(DATES[d]))+" and its hotspot"; }
+function setAvail(){
+  const ok=!!sampleFn;
+  askSend.disabled=!ok; askInput.disabled=!ok; $("askChips").querySelectorAll("button").forEach(b=>b.disabled=!ok);
+  if(!ok && sampleReady && !askLog.dataset.off){ askLog.dataset.off="1"; addMsg("sys","The co-pilot works in the Claude version of this page, where it can ask Claude. On this public site it is not connected. Ask the project owner for the Claude link."); }
+}
+(function initSample(){
+  const c=window.claude;
+  if(!c || typeof c.use!=="function"){ sampleReady=true; setAvail(); return; }
+  c.use("sample").then(f=>{ sampleFn=f||null; sampleReady=true; setAvail(); }).catch(()=>{ sampleReady=true; setAvail(); });
+})();
+function openAsk(){ askPanel.hidden=false; askBtn.hidden=true; askBtn.setAttribute("aria-expanded","true"); askCtx();
+  if(!askLog.children.length) addMsg("sys","Ask anything about the selected day, its hotspot, a decision or how the model works. The first question asks you to allow this page to use Claude.");
+  if(!sampleReady){ askSend.disabled=true; } setAvail(); if(!askInput.disabled) askInput.focus(); }
+function closeAsk(){ askPanel.hidden=true; askBtn.hidden=false; askBtn.setAttribute("aria-expanded","false"); askBtn.focus(); }
+askBtn.addEventListener("click",openAsk);
+$("askClose").addEventListener("click",closeAsk);
+askPanel.addEventListener("keydown",e=>{ if(e.key==="Escape") closeAsk(); });
+const ERRTXT={not_granted:"The page is not allowed to use Claude. You can allow it from the page's permissions and ask again.",sampling_disabled:"Claude is not available for this account.",rate_limited:"Too many questions just now. Try again in a minute.",session_expired:"Please sign in to Claude again.",refused:"Claude could not answer that. Try rephrasing.",empty_completion:"No answer came back. Try a simpler question.",prompt_too_large:"The question is too long. Try a shorter one."};
+async function ask(q){
+  if(!sampleFn||askBusy||!q.trim()) return;
+  askBusy=true; askSend.hidden=true; askStop.hidden=false; askInput.value="";
+  askCtx(); addMsg("user",q); const bubble=addMsg("ai","Thinking…");
+  const msgs=[{role:"user",content:BRIEF}];
+  askTurns.slice(-6).forEach(t=>{ msgs.push({role:"user",content:"Question: "+t.q}); msgs.push({role:"assistant",content:t.a}); });
+  msgs.push({role:"user",content:"Current screen context:\n"+ctxText()+"\n\nQuestion: "+q});
+  askCtl=new AbortController();
+  try{
+    const {text,truncated}=await sampleFn(msgs,{cache:false,signal:askCtl.signal,onText:({text})=>{bubble.textContent=text; askLog.scrollTop=askLog.scrollHeight;}});
+    bubble.textContent=text+(truncated?"\n\n(Answer cut short. Ask for less at a time.)":"");
+    askTurns.push({q,a:text});
+  }catch(e){
+    const code=e&&e.code;
+    if(code==="cancelled"){ bubble.textContent=(e.text||"")+(e.text?"\n\n(Stopped.)":"Stopped."); }
+    else { bubble.textContent=e&&e.text?e.text+"\n\n(Interrupted.)":(ERRTXT[code]||"Something interrupted the answer. Try again."); bubble.className="msg sys";
+      if(["not_granted","sampling_disabled","not_declared","capability_disabled","capability_removed"].includes(code)){ sampleFn=null; setAvail(); } }
+  }finally{ askBusy=false; askSend.hidden=false; askStop.hidden=true; askLog.scrollTop=askLog.scrollHeight; }
+}
+$("askForm").addEventListener("submit",e=>{ e.preventDefault(); ask(askInput.value); });
+askInput.addEventListener("keydown",e=>{ if(e.key==="Enter"&&!e.shiftKey){ e.preventDefault(); ask(askInput.value); } });
+askStop.addEventListener("click",()=>askCtl&&askCtl.abort());
+$("askChips").querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>ask(b.dataset.q)));
 
 compute(); renderAll(); readout(state.sel.s,state.sel.d);
-if(typeof window!=="undefined") window.__tdr={cell,SERIES,DATES};
+window.__tdr={cell,SERIES,DATES,get RUNS(){return RUNS;},evalPlan,uniform,get GRID(){return GRID;},dayView};
 })();
 </script>
 </body>
